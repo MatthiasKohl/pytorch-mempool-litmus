@@ -1,8 +1,8 @@
 import torch
 from utils import make_custom_pool
 
-pool1 = make_custom_pool(1)
-pool2 = make_custom_pool(2)
+pool1 = torch.cuda.MemPool(make_custom_pool(1))
+pool2 = torch.cuda.MemPool(make_custom_pool(2))
 
 with torch.cuda.use_mem_pool(pool1):
     print("Pool 1 ctx start")

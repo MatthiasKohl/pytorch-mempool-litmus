@@ -26,7 +26,7 @@ def make_custom_pool(pool_id: int) -> torch._C._CUDAPluggableAllocator:
     source = CUSTOM_ALLOC_SOURCE_TEMPLATE.replace("[::id::]", str(pool_id))
     custom_libname = f"custom_alloc{pool_id}"
     if custom_libname in CUSTOM_ALLOCATORS:
-        return torch.cuda.MemPool(CUSTOM_ALLOCATORS[custom_libname][0].allocator())
+        return CUSTOM_ALLOCATORS[custom_libname][0].allocator()
     os.makedirs(f"./build_{pool_id}", exist_ok=True)
     custom_allocator = cpp_extension.load_inline(
         name=custom_libname,
@@ -39,4 +39,4 @@ def make_custom_pool(pool_id: int) -> torch._C._CUDAPluggableAllocator:
         f"./build_{pool_id}/{custom_libname}.so", "customAlloc", "customFree"
     )
     CUSTOM_ALLOCATORS[custom_libname] = (allocator, custom_allocator)
-    return torch.cuda.MemPool(allocator.allocator())
+    return allocator.allocator()
