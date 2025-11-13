@@ -5,10 +5,10 @@ pool1 = make_custom_pool(1)
 pool2 = make_custom_pool(2)
 
 
-with torch.cuda.use_mem_pool(torch.cuda.MemPool(pool1)):
+with torch.cuda.use_mem_pool(pool1):
     print("Pool 1 ctx start")
     x1 = torch.randn(8, device="cuda")
-    with torch.cuda.use_mem_pool(torch.cuda.MemPool(pool2)):
+    with torch.cuda.use_mem_pool(pool2):
         print("Pool 2 ctx start")
         x2 = torch.randn(8, device="cuda")
         print("Pool 2 ctx end")

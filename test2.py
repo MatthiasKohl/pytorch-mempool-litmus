@@ -4,7 +4,7 @@ from utils import make_custom_pool
 pool1 = make_custom_pool(1)
 
 x1 = torch.randn(8, device="cuda")
-with torch.cuda.use_mem_pool(torch.cuda.MemPool(pool1)):
+with torch.cuda.use_mem_pool(pool1):
     print("Pool 1 ctx start")
     del x1
     print("Pool 1 ctx end")
